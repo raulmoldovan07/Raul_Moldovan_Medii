@@ -1,0 +1,83 @@
+﻿@page
+@model Raul_Moldovan_Medii.Pages.Appointments.CreateModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Appointment</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Appointment.AppointmentDateTime" class="control-label"></label>
+                <input asp-for="Appointment.AppointmentDateTime" class="form-control" />
+                <span asp-validation-for="Appointment.AppointmentDateTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Appointment.Status" class="control-label"></label>
+                <select asp-for="Appointment.Status"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<Raul_Moldovan_Medii.Models.AppointmentStatus>()">
+                </select>
+                <span asp-validation-for="Appointment.Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Appointment.ClientID" class="control-label"></label>
+                <select asp-for="Appointment.ClientID"
+                        class="form-control"
+                        asp-items="ViewBag.ClientID">
+                    <option value="">-- Select Client --</option>
+                </select>
+                <span asp-validation-for="Appointment.ClientID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Appointment.CarID" class="control-label"></label>
+                <select asp-for="Appointment.CarID"
+                        class="form-control"
+                        asp-items="ViewBag.CarID">
+                    <option value="">-- Select Car --</option>
+                </select>
+                <span asp-validation-for="Appointment.CarID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Appointment.MechanicID" class="control-label"></label>
+                <select asp-for="Appointment.MechanicID"
+                        class="form-control"
+                        asp-items="ViewBag.MechanicID">
+                    <option value="">-- Unassigned --</option>
+                </select>
+                <span asp-validation-for="Appointment.MechanicID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

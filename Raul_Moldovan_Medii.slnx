@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../Raul_Moldovan_Medii.Mobile/Raul_Moldovan_Medii.Mobile.csproj" Id="95ce420d-634c-41d0-8d78-f04aec856735">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="Raul_Moldovan_Medii.csproj" />
+</Solution>
