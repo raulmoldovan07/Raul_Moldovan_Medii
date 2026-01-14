@@ -1,0 +1,44 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Raul_Moldovan_Medii.Mobile.MainPage"
+             Title="Programări">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Programări"
+               FontSize="28"
+               FontAttributes="Bold" />
+
+        <Button Text="Încarcă programările"
+                Clicked="OnLoadClicked"
+                BackgroundColor="#5B2DDA"
+                TextColor="White"
+                CornerRadius="10"/>
+
+        <CollectionView x:Name="AppointmentsList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10"
+                           Margin="0,5"
+                           BorderColor="#DDD"
+                           CornerRadius="8">
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding DataOra}"
+                                   FontAttributes="Bold"/>
+
+                            <Label Text="{Binding ClientText}" />
+
+                            <Label Text="{Binding MasinaText}" />
+
+                            <Label Text="{Binding MecanicText}"
+                                   FontAttributes="Italic"/>
+                        </VerticalStackLayout>
+
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

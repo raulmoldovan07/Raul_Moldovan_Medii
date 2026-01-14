@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Raul_Moldovan_Medii.Mobile.CreateAppointmentPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Programare nouă">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Dată și oră" FontAttributes="Bold"/>
+            <DatePicker x:Name="DatePicker"/>
+            <TimePicker x:Name="TimePicker"/>
+
+            <Label Text="Client ID" FontAttributes="Bold"/>
+            <Entry x:Name="ClientIdEntry"
+                   Keyboard="Numeric"
+                   Placeholder="ex: 1"/>
+
+            <Label Text="Mașină ID" FontAttributes="Bold"/>
+            <Entry x:Name="CarIdEntry"
+                   Keyboard="Numeric"
+                   Placeholder="ex: 1"/>
+
+            <Label Text="Mecanic ID (opțional)" FontAttributes="Bold"/>
+            <Entry x:Name="MechanicIdEntry"
+                   Keyboard="Numeric"
+                   Placeholder="ex: 1"/>
+
+            <Button
+                Text="Creează programarea"
+                Clicked="OnCreateClicked"
+                BackgroundColor="#512BD4"
+                TextColor="White"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
