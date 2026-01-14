@@ -60,7 +60,64 @@ namespace Raul_Moldovan_Medii.Controllers
             return Ok(data);
         }
 
-        
+        // GET: /api/AppointmentsApi/clients
+        [HttpGet("clients")]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetClients()
+        {
+            var data = await _context.Client
+                .AsNoTracking()
+                .OrderBy(c => c.LastName)
+                .ThenBy(c => c.FirstName)
+                .Select(c => new ClientDto
+                {
+                    ID = c.ID,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Email = c.Email
+                })
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
+        // GET: /api/AppointmentsApi/cars
+        [HttpGet("cars")]
+        public async Task<ActionResult<IEnumerable<CarDto>>> GetCars()
+        {
+            var data = await _context.Car
+                .AsNoTracking()
+                .OrderBy(c => c.PlateNumber)
+                .Select(c => new CarDto
+                {
+                    ID = c.ID,
+                    PlateNumber = c.PlateNumber,
+                    Make = c.Make,
+                    Model = c.Model
+                })
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
+     
+        [HttpGet("mechanics")]
+        public async Task<ActionResult<IEnumerable<MechanicDto>>> GetMechanics()
+        {
+            var data = await _context.Mechanic
+                .AsNoTracking()
+                .OrderBy(m => m.LastName)
+                .ThenBy(m => m.FirstName)
+                .Select(m => new MechanicDto
+                {
+                    ID = m.ID,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName
+                })
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<ActionResult<CreateAppointmentResponse>> Create([FromBody] CreateAppointmentRequest req)
         {
