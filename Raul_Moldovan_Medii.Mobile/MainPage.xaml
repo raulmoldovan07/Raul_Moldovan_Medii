@@ -15,26 +15,35 @@
                 TextColor="White"
                 CornerRadius="10"/>
 
+        <Button Text="Adaugă programare"
+                Clicked="OnAddClicked"
+                BackgroundColor="#512BD4"
+                TextColor="White"
+                CornerRadius="10"/>
+
         <CollectionView x:Name="AppointmentsList">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="10"
-                           Margin="0,5"
-                           BorderColor="#DDD"
-                           CornerRadius="8">
+                    <Frame Padding="10" Margin="0,5" BorderColor="#DDD" CornerRadius="8">
+                        <Grid ColumnDefinitions="*,Auto">
 
-                        <VerticalStackLayout Spacing="4">
-                            <Label Text="{Binding DataOra}"
-                                   FontAttributes="Bold"/>
+                            <VerticalStackLayout Spacing="4" Grid.Column="0">
+                                <Label Text="{Binding DataOra}" FontAttributes="Bold"/>
+                                <Label Text="{Binding ClientText}" />
+                                <Label Text="{Binding MasinaText}" />
+                                <Label Text="{Binding MecanicText}" FontAttributes="Italic"/>
+                            </VerticalStackLayout>
 
-                            <Label Text="{Binding ClientText}" />
-
-                            <Label Text="{Binding MasinaText}" />
-
-                            <Label Text="{Binding MecanicText}"
-                                   FontAttributes="Italic"/>
-                        </VerticalStackLayout>
-
+                            <Button Grid.Column="1"
+                                    Text="Șterge"
+                                    Clicked="OnDeleteClicked"
+                                    CommandParameter="{Binding ID}"
+                                    BackgroundColor="#D32F2F"
+                                    TextColor="White"
+                                    CornerRadius="8"
+                                    Padding="10,6"
+                                    VerticalOptions="Center"/>
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

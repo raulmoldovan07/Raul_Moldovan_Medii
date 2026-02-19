@@ -14,4 +14,5 @@ namespace Raul_Moldovan_Medii.Mobile
             return new Window(new AppShell());
         }
     }
+
 }

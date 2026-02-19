@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Raul_Moldovan_Medii.Mobile\**" />
+    <Content Remove="Raul_Moldovan_Medii.Mobile\**" />
+    <EmbeddedResource Remove="Raul_Moldovan_Medii.Mobile\**" />
+    <None Remove="Raul_Moldovan_Medii.Mobile\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />

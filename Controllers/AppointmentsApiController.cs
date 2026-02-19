@@ -16,7 +16,7 @@ namespace Raul_Moldovan_Medii.Controllers
             _context = context;
         }
 
-       
+        // GET: /api/AppointmentsApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointments()
         {
@@ -66,8 +66,7 @@ namespace Raul_Moldovan_Medii.Controllers
         {
             var data = await _context.Client
                 .AsNoTracking()
-                .OrderBy(c => c.LastName)
-                .ThenBy(c => c.FirstName)
+                .OrderBy(c => c.LastName).ThenBy(c => c.FirstName)
                 .Select(c => new ClientDto
                 {
                     ID = c.ID,
@@ -99,14 +98,13 @@ namespace Raul_Moldovan_Medii.Controllers
             return Ok(data);
         }
 
-     
+        // GET: /api/AppointmentsApi/mechanics
         [HttpGet("mechanics")]
         public async Task<ActionResult<IEnumerable<MechanicDto>>> GetMechanics()
         {
             var data = await _context.Mechanic
                 .AsNoTracking()
-                .OrderBy(m => m.LastName)
-                .ThenBy(m => m.FirstName)
+                .OrderBy(m => m.LastName).ThenBy(m => m.FirstName)
                 .Select(m => new MechanicDto
                 {
                     ID = m.ID,
@@ -118,17 +116,15 @@ namespace Raul_Moldovan_Medii.Controllers
             return Ok(data);
         }
 
+        // POST: /api/AppointmentsApi
         [HttpPost]
         public async Task<ActionResult<CreateAppointmentResponse>> Create([FromBody] CreateAppointmentRequest req)
         {
-            if (req == null)
-                return BadRequest("Body lipsă.");
-
+            if (req == null) return BadRequest("Body lipsă.");
             if (req.ClientID <= 0) return BadRequest("ClientID invalid.");
             if (req.CarID <= 0) return BadRequest("CarID invalid.");
             if (req.AppointmentDateTime == default) return BadRequest("Data/ora invalidă.");
 
-            
             if (!await _context.Client.AnyAsync(x => x.ID == req.ClientID))
                 return BadRequest("Client inexistent.");
 
@@ -138,12 +134,9 @@ namespace Raul_Moldovan_Medii.Controllers
             if (req.MechanicID.HasValue && !await _context.Mechanic.AnyAsync(x => x.ID == req.MechanicID.Value))
                 return BadRequest("Mecanic inexistent.");
 
-           
-            AppointmentStatus statusEnum;
-            if (!Enum.IsDefined(typeof(AppointmentStatus), req.Status))
-                statusEnum = AppointmentStatus.Pending;
-            else
-                statusEnum = (AppointmentStatus)req.Status;
+            var statusEnum = Enum.IsDefined(typeof(AppointmentStatus), req.Status)
+                ? (AppointmentStatus)req.Status
+                : AppointmentStatus.Pending;
 
             var appt = new Appointment
             {
@@ -159,6 +152,26 @@ namespace Raul_Moldovan_Medii.Controllers
 
             return Ok(new CreateAppointmentResponse { Id = appt.ID });
         }
+
+        // DELETE: /api/AppointmentsApi/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var appt = await _context.Appointment.FindAsync(id);
+            if (appt == null) return NotFound();
+
+            var links = await _context.AppointmentService
+                .Where(x => x.AppointmentID == id)
+                .ToListAsync();
+
+            if (links.Count > 0)
+                _context.AppointmentService.RemoveRange(links);
+
+            _context.Appointment.Remove(appt);
+            await _context.SaveChangesAsync();
+
+            return NoContent(); // 204
+        }
     }
 
     
@@ -167,7 +180,6 @@ namespace Raul_Moldovan_Medii.Controllers
         public int ID { get; set; }
         public DateTime AppointmentDateTime { get; set; }
         public int Status { get; set; }
-
         public ClientDto? Client { get; set; }
         public CarDto? Car { get; set; }
         public MechanicDto? Mechanic { get; set; }
@@ -196,11 +208,10 @@ namespace Raul_Moldovan_Medii.Controllers
         public string LastName { get; set; } = "";
     }
 
-   
     public class CreateAppointmentRequest
     {
         public DateTime AppointmentDateTime { get; set; }
-        public int Status { get; set; } = 0; 
+        public int Status { get; set; } = 0;
         public int ClientID { get; set; }
         public int CarID { get; set; }
         public int? MechanicID { get; set; }
@@ -211,3 +222,4 @@ namespace Raul_Moldovan_Medii.Controllers
         public int Id { get; set; }
     }
 }
+

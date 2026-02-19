@@ -1,4 +1,5 @@
 ﻿using Raul_Moldovan_Medii.Mobile.Services;
+using Raul_Moldovan_Medii.Mobile.Models;
 
 namespace Raul_Moldovan_Medii.Mobile;
 
@@ -25,16 +26,24 @@ public partial class CreateAppointmentPage : ContentPage
             if (int.TryParse(MechanicIdEntry.Text, out int m))
                 mechanicId = m;
 
-            var date = DatePicker.Date;
-            var time = TimePicker.Time;
-            var dateTime = date.Add(time);
+            var date = DatePicker?.Date ?? DateTime.Today;
+            var time = TimePicker?.Time ?? TimeSpan.Zero;
 
-            await _api.CreateAppointmentAsync(
-                dateTime,
-                clientId,
-                carId,
-                mechanicId
-            );
+            var dateTime = date.Date + time;
+
+
+
+
+            var req = new CreateAppointmentRequest
+            {
+                AppointmentDateTime = dateTime,
+                ClientID = clientId,
+                CarID = carId,
+                MechanicID = mechanicId,
+                Status = 0
+            };
+
+            await _api.CreateAppointmentAsync(req);
 
             await DisplayAlert("Succes", "Programare creată!", "OK");
             await Navigation.PopAsync();

@@ -1,24 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Raul_Moldovan_Medii.Data;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddRazorPages();
 
-
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    });
-
+builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ServiceAutoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ServiceAutoContext")));
-
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
@@ -42,8 +34,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapControllers();
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();

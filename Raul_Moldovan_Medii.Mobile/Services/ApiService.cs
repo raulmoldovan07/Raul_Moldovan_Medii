@@ -47,5 +47,20 @@ namespace Raul_Moldovan_Medii.Mobile.Services
             var ok = await resp.Content.ReadFromJsonAsync<CreateAppointmentResponse>();
             return ok?.Id ?? 0;
         }
+
+        public async Task DeleteAppointmentAsync(int id)
+        {
+            var url = $"{BaseUrl}/api/AppointmentsApi/{id}";
+
+            var resp = await _http.DeleteAsync(url);
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                var body = await resp.Content.ReadAsStringAsync();
+                throw new Exception(string.IsNullOrWhiteSpace(body) ? resp.StatusCode.ToString() : body);
+            }
+        }
+
+
     }
 }
